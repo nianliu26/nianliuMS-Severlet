@@ -20,7 +20,7 @@ public class DataHandle {
      * @param object 一个实体对象
      * @return 返回一个JSONObject对象
      */
-    public JSONObject structureJSON(Object object){
+    public static JSONObject structureJSON(Object object){
 
         JSONObject jsonObject=new JSONObject();
 

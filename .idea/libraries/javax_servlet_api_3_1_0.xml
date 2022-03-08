@@ -1,16 +1,19 @@
 <component name="libraryTable">
   <library name="javax.servlet-api-3.1.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/javax.servlet-api-3.1.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/commons-beanutils-1.9.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/commons-io-2.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/ezmorph-1.0.6.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/json-lib-2.4-jdk15.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/commons-logging-1.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/commons-lang-2.6.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../服务器开发第三方库/commons-collections-3.2.2.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/commons-beanutils-1.9.4.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/commons-collections-3.2.2.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/commons-io-2.4.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/commons-lang3-3.12.0.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/commons-logging-1.2.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/ezmorph-1.0.6.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/javax.servlet-api-3.1.0.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/json-lib-2.4-jdk15.jar!/" />
+      <root url="jar://E:/idea/服务器开发第三方库/mysql-connector-java-8.0.22.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://E:/idea/服务器开发第三方库/json-20210307-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>

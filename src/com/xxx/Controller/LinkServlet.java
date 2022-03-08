@@ -19,15 +19,7 @@ public class LinkServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter w= resp.getWriter();
-        w.println("<html>");
-        w.println("<head>");
-        w.println("<title>测试</title>");
-        w.println("</head>");
-        w.println("<body>");
-        w.println("<h1>这是一个服务器测试</h1>");
-        w.println("测试输出");
-        w.println("</body>");
-        w.println("</html>");
+
         doPost(req,resp);
     }
 

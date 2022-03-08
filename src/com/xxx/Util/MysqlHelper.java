@@ -12,9 +12,9 @@ public class MysqlHelper {
      * @param objects：具体参数
      * @return 返回执行命令的次数
      */
-    public static int executeUpdate(String sql,Object...objects){
+    public static int executeUpdate(String dbName,String sql,Object...objects){
         int len=0;
-        PreparedStatement psta=JdbcUtil.createPreparedStatement(sql);
+        PreparedStatement psta=JdbcUtil.createPreparedStatement(dbName,sql);
         try {
             for(int i=0;i< objects.length;i++){
                 psta.setObject(i+1,objects[i]);
@@ -34,9 +34,9 @@ public class MysqlHelper {
      * @param objects:sql语句参数具体值
      * @return 返回查询到的内容
      */
-    public static ResultSet executeQuery(String sql,Object...objects){
+    public static ResultSet executeQuery(String dbName,String sql,Object...objects){
         ResultSet rs=null;
-        PreparedStatement psta=JdbcUtil.createPreparedStatement(sql);
+        PreparedStatement psta=JdbcUtil.createPreparedStatement(dbName,sql);
         try {
             for (int i=0;i<objects.length;i++){
                 psta.setObject(i+1,objects[i]);
