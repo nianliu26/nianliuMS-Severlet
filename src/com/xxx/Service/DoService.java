@@ -44,7 +44,7 @@ public class DoService {
 
 
         feedback.clear();//清楚所有数据
-        //if (true){//TODO 数据库还未创建，创建后则应该更改UserInterface的内容
+        //if (true){// 数据库还未创建，创建后则应该更改UserInterface的内容
         /*if (user.Login(name,password)){
             feedback.put("vertify","1");//添加验证通过的数据
             System.out.println("验证通过");

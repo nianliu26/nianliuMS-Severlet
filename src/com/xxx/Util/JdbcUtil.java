@@ -4,7 +4,8 @@ import java.sql.*;
 
 public class JdbcUtil {
     //先设置驱动器和数据库地址
-    private static String DBDriver="com.mysql.jdbc.Driver";
+    //private static String DBDriver="com.mysql.jdbc.Driver";
+    private static String DBDriver="com.mysql.cj.jdbc.Driver";
     //private static String url="jdbc:mysql://localhost:3306/javawebtest?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     private static String url = "jdbc:mysql://localhost:3306/";
     private static String encode="?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";

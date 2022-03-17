@@ -42,7 +42,7 @@ public class ImageUtil {
             out.flush();
             out.close();
         }catch (Exception e){
-
+            e.printStackTrace();
 
         }
         return fileName;

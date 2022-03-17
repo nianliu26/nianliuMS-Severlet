@@ -1,17 +1,14 @@
 package com.xxx.Mapper;
 
+import com.xxx.Module.Arrive;
 import com.xxx.Module.Employee;
 import com.xxx.Module.Manager;
-import com.xxx.Module.Times;
+import com.xxx.Module.Time;
 import com.xxx.Util.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserInterface {
 
@@ -57,30 +54,111 @@ public class UserInterface {
 
 */
 
+    /**
+     * 修改员工密码
+     * @param dbName 数据库名
+     * @param eid 员工编号
+     * @param newPassword 新的密码
+     * @return
+     */
+    public static boolean updateEmployeePassword(String dbName,String eid,String newPassword){
+        String sql = "UPDATE employee SET password = ? where eid = ?";
+        int len = MysqlHelper.executeUpdate(dbName,sql,newPassword,eid);
 
-    public static Times FindTimes(String dbName){
-        Times times = new Times();
-        String sql = "select time from times";
-        ResultSet rs = MysqlHelper.executeQuery(dbName,sql);
+        if (len != 0) return true;
+        return false;
+    }
+
+    /**
+     * 修改员工头像
+     * @param dbName 数据库名
+     * @param eid 员工编号
+     * @param imagePath 图片地址
+     * @return 返回是否修改成功
+     */
+    public static boolean updateEmployeePhotoByEid(String dbName,String eid,String imagePath){
+        String sql = "UPDATE employee SET photo = ? where eid = ?";
+        int len = MysqlHelper.executeUpdate(dbName,sql,imagePath,eid);
+
+        if(len != 0) return  true;
+        return false;
+    }
+
+    /**
+     * 添加签到信息
+     * @param dbName 数据库/公司名
+     * @param aType 签到类型
+     * @param eid 员工id
+     * @return 返回是否执行成功
+     */
+    public static boolean AddArrived(String dbName,String aType,String eid){
+        String sql = "INSERT INTO arrive(aType,aTime,eid) VALUES(?,NOW(),?);";
+        int len = MysqlHelper.executeUpdate(dbName,sql,aType,eid);
+
+        if (len != 0) return true;
+        return false;
+    }
+
+
+    public static Arrive FindArrived(String dbName,String eid,String day){
+        Arrive arrive = new Arrive();
+        day = day+"%";
+        String sql = "select * from arrive where eid=? AND aTime LIKE ?";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql,eid,day);
+        if(rs == null) return null;
         try {
             if(rs.next()){
                 String name = null;
                 String methodName=null;
-                Field[] fields=times.getClass().getDeclaredFields();//获取该类的所有属性
+                Field[] fields=arrive.getClass().getDeclaredFields();//获取该类的所有属性
 
                 //找到所有属性的命名，并获取其所有set方法的值
                 for (Field field:fields){
                     name=field.getName();
                     methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
-                    Method method=times.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
-                    method.invoke(times,rs.getString(name));
+                    Method method=arrive.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(arrive,rs.getString(name));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return arrive;
+
+    }
+
+
+    /**
+     * 根据签到类型名查找签到类型
+     * @param dbName 数据库/公司名
+     * @param timeType 签到类型
+     * @return
+     */
+    public static Time FindTimesByType(String dbName, String timeType){
+        Time time = new Time();
+        String sql = "select * from times where Trim(timeType)=?";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql,timeType);
+        try {
+            if(rs.next()){
+                String name = null;
+                String methodName=null;
+                Field[] fields= time.getClass().getDeclaredFields();//获取该类的所有属性
+
+                //找到所有属性的命名，并获取其所有set方法的值
+                for (Field field:fields){
+                    name=field.getName();
+                    methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
+                    Method method= time.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(time,rs.getString(name));
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return times;
+        return time;
     }
 
 

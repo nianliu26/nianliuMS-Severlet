@@ -44,7 +44,7 @@ public class LinkServlet extends HttpServlet {
             //以上的过程都从request中读取json，并将json转换成string，这样可以显示出来。最终String类型的json就是acceptjson　　
             acceptjson = JSONObject.fromObject(sb.toString());
         } catch (Exception e) {
-            // TODO: handle exception 给客户端反馈错误信息
+            //  handle exception 给客户端反馈错误信息
             System.out.println(e);
             e.printStackTrace();
         }
@@ -52,7 +52,7 @@ public class LinkServlet extends HttpServlet {
 
         if (sb.toString()==""){
 
-            //TODO 如果客户端发送了一个空数据，则向客户端发送反馈信息
+            //如果客户端发送了一个空数据，则向客户端发送反馈信息
 
 
         }else {

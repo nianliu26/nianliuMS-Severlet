@@ -22,5 +22,31 @@
         <url-pattern>/arrive</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>saveImage</servlet-name>
+        <servlet-class>com.xxx.Controller.SaveImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>saveImage</servlet-name>
+        <url-pattern>/saveImage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changePassword</servlet-name>
+        <servlet-class>com.xxx.Controller.PasswordChangeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changePassword</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Service</servlet-name>
+        <servlet-class>com.xxx.Controller.ServiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Service</servlet-name>
+        <url-pattern>/Service</url-pattern>
+    </servlet-mapping>
 
 </web-app>

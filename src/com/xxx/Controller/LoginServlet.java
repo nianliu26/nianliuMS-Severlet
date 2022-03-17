@@ -4,6 +4,7 @@ import com.xxx.Mapper.UserInterface;
 import com.xxx.Module.Employee;
 import com.xxx.Module.Manager;
 import com.xxx.Util.DataHandle;
+import com.xxx.Util.JdbcUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -99,5 +100,9 @@ public class LoginServlet extends HttpServlet {
             w.write("");
         }
 
+        w.close();
+        JdbcUtil.closeOperation();
+
     }
+
 }
