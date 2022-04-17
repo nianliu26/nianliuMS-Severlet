@@ -1,58 +1,23 @@
 package com.xxx.Mapper;
 
-import com.xxx.Module.Arrive;
-import com.xxx.Module.Employee;
-import com.xxx.Module.Manager;
-import com.xxx.Module.Time;
+import com.xxx.Module.*;
 import com.xxx.Util.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInterface {
 
 
-/*
-    //TODO 待重建
-    public boolean Login(String dbName,String userName,String password){
-        String sql="select name,password from employee";
-        ResultSet rs= MysqlHelper.executeQuery(dbName,sql);
-        try {
-            while(rs.next()){
-                String name=rs.getString("name");
-                String pwd=rs.getString("password");
-                System.out.println("name:"+name+"/password:"+pwd);
-                if(name.equals(userName) && pwd.equals(password)){
-                    return true;
-                }
-            }
-            rs.close();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public static boolean sendResponse(String dbName,String messageId,String responseContent){
+        String sql = "UPDATE message SET mresponse=?,mrtime=now() where messageid=?";
+        int len = MysqlHelper.executeUpdate(dbName,sql,responseContent,messageId);
+        if(len != 0) return true;
         return false;
     }
-
-    //TODO 待重建
-    public void addUser(User u){
-        String sql="insert into tb_user (userName,userPWD) values (?,?)";//构建sql语句模板
-        MysqlHelper.executeUpdate(sql,u.getUserName(),MD5Helper.GetMD5Code(u.getUserPWD()));
-    }
-
-    //TODO 待重建
-    public void deleteUser(String dbName,int i){
-        String sql="delete from tb_user where id=?";
-        MysqlHelper.executeUpdate(dbName,sql,i);
-    }
-
-    //TODO 待重建
-    public void modifyUser(String dbName,User u){
-        String sql="update tb_user set id=?,userName=? where id=?";
-        MysqlHelper.executeUpdate(dbName,sql,u.getUserID(),u.getUserName());
-    }
-
-*/
 
     /**
      * 修改员工密码
@@ -84,6 +49,21 @@ public class UserInterface {
         return false;
     }
 
+
+    public static boolean AddEmployee(String dbName,String employeeStr){
+        String[] ary = employeeStr.split("\\|");
+        for(String a:ary) System.out.println(a);
+
+        if(ary.length != 7) return false;
+
+        String sql = "INSERT INTO employee(name,password,sex,birthday,photo,phone,address,zoneNumber,information,registered)"+
+                "VALUES (?,'12345678',?,?,'img/111.jpg',?,?,?,?,now())";
+
+        int len = MysqlHelper.executeUpdate(dbName,sql,ary[0],ary[1],ary[2],ary[3],ary[4],ary[5],ary[6]);
+        if(len != 0) return true;
+        return false;
+    }
+
     /**
      * 添加签到信息
      * @param dbName 数据库/公司名
@@ -97,6 +77,146 @@ public class UserInterface {
 
         if (len != 0) return true;
         return false;
+    }
+
+    public static boolean AddMessage(String dbName,String eid,String title,String content){
+        String sql = "INSERT INTO message(mtitle,mbody,meid,mtime) VALUES(?,?,?,NOW());";
+        int len = MysqlHelper.executeUpdate(dbName,sql,title,content,eid);
+        if(len != 0) return true;
+        return false;
+    }
+
+    public static String FindZoneIdByName(String dbName,String zoneName){
+        String sql = "select zoneId FROM zone where zoneName=?";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql,zoneName);
+        if(rs == null) return  null;
+        String zoneId="";
+        try {
+            if(rs.next()) zoneId = rs.getString("zoneId");
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+        return zoneId;
+    }
+
+
+    public static Zone FindZone(String dbName,String zid){
+        Zone zone = new Zone();
+        String sql = "select * from zone where zoneId = ?";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql,zid);
+        if(rs == null) return null;
+        try {
+            if(rs.next()){
+                String name = null;
+                String methodName=null;
+                Field[] fields=zone.getClass().getDeclaredFields();//获取该类的所有属性
+
+                //找到所有属性的命名，并获取其所有set方法的值
+                for (Field field:fields){
+                    name=field.getName();
+                    methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
+                    Method method=zone.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(zone,rs.getString(name));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return zone;
+    }
+
+    public static List<EmployeeAndZone> FindAllEmployee(String dbName){
+        List<EmployeeAndZone> employeeAndZones = new ArrayList<>();
+        String sql = "SELECT eid,name,password,sex,birthday,phone,address,information,registered,zoneName FROM employee,zone " +
+                "WHERE employee.zoneNumber = zone.zoneId;";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql);
+        if(rs == null) return null;
+        try {
+            while (rs.next()){
+                EmployeeAndZone employeeAndZone = new EmployeeAndZone();
+                String name = null;
+                String methodName=null;
+                Field[] fields=employeeAndZone.getClass().getDeclaredFields();//获取该类的所有属性
+
+                //找到所有属性的命名，并获取其所有set方法的值
+                for (Field field:fields){
+                    name=field.getName();
+                    methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
+                    Method method=employeeAndZone.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(employeeAndZone,rs.getString(name));
+                }
+                employeeAndZones.add(employeeAndZone);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return employeeAndZones;
+    }
+
+    public static List<Message> FindMessage(String dbName){
+        List<Message> messages = new ArrayList<>();
+        String sql = "select * from message ORDER BY mtime DESC,mrtime DESC";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql);
+        if(rs == null) return null;
+        try {
+            while (rs.next()){
+                Message message = new Message();
+                String name = null;
+                String methodName=null;
+                Field[] fields=message.getClass().getDeclaredFields();//获取该类的所有属性
+
+                //找到所有属性的命名，并获取其所有set方法的值
+                for (Field field:fields){
+                    name=field.getName();
+                    methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
+                    Method method=message.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(message,rs.getString(name));
+                }
+                messages.add(message);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+
+        return messages;
+    }
+
+    public static List<Message> FindMessage(String dbName, String eid){
+        List<Message> messages = new ArrayList<>();
+        String sql = "select * from message where meid = ? ORDER BY mtime DESC,mrtime DESC";
+        ResultSet rs = MysqlHelper.executeQuery(dbName,sql,eid);
+        if(rs == null) return null;
+        try {
+            while (rs.next()){
+                Message message = new Message();
+                String name = null;
+                String methodName=null;
+                Field[] fields=message.getClass().getDeclaredFields();//获取该类的所有属性
+
+                //找到所有属性的命名，并获取其所有set方法的值
+                for (Field field:fields){
+                    name=field.getName();
+                    methodName ="set"+name.substring(0,1).toUpperCase().concat(name.substring(1));//将属性首字母大写第一个
+                    Method method=message.getClass().getMethod(methodName,String.class);//第二个参数必须写上set属性的类型，否则报noSuchMethodException的异常
+                    method.invoke(message,rs.getString(name));
+                }
+                messages.add(message);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+
+        return messages;
     }
 
 
@@ -128,6 +248,8 @@ public class UserInterface {
         return arrive;
 
     }
+
+
 
 
     /**
@@ -252,24 +374,4 @@ public class UserInterface {
         }
     }
 
-
-    //TODO 待重建
-    /*public List QueryUsers(String dbName){
-        List<User> list=new ArrayList<User>();
-        String sql="select * from tb_user";
-        ResultSet rs=MysqlHelper.executeQuery(dbName,sql);
-        try {
-            while(rs.next()){
-                //保存取出来的每一条记录
-                User u=new User();
-                u.setUserID(rs.getInt("userID"));
-                u.setUserName(rs.getString("userName"));
-                list.add(u);
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return list;
-    }*/
 }

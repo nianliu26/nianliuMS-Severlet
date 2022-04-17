@@ -16,8 +16,6 @@ public class SaveImageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("进入访问");
-
         String eid = req.getParameter("eid");
         String companyId = req.getParameter("companyId");
         String image = req.getParameter("image");
@@ -25,8 +23,6 @@ public class SaveImageServlet extends HttpServlet {
         String dbName = UserInterface.FindCompany(companyId);
         Employee employee = UserInterface.FindEmployeeByEid(dbName,eid);
         String imageName = employee.getName();
-
-        System.out.println("eid="+eid+",companyId="+companyId+",imageName="+imageName);
 
         //访问成功
         resp.setStatus(200);

@@ -19,8 +19,9 @@ public class ImageUtil {
     public static String GenerateImage(String fileName,String imgStr) { // 对字节数组字符串进行Base64解码并生成图片
 
 
-        //TODO 部署到服务器时需要更改地址
-        String imgFilePath = "D:/tomcatimg",imgPath="";
+        //部署到服务器时需要更改地址
+        //String imgFilePath = "D:/tomcatimg",imgPath="";
+        String imgFilePath = "/root/tomcat8/webapps/img",imgPath="";
         //String fileName = System.currentTimeMillis()+DataUtil.getRond4()+".jpg";
         if (imgStr == null) // 图像数据为空
             return null;

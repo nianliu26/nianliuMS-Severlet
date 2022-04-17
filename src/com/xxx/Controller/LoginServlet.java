@@ -60,6 +60,8 @@ public class LoginServlet extends HttpServlet {
                     w.write(feedback);
                 }
             }
+            w.close();
+            JdbcUtil.closeOperation();
 
             return;
 

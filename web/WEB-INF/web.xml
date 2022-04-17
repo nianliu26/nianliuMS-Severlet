@@ -49,4 +49,66 @@
         <url-pattern>/Service</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GetMessage</servlet-name>
+        <servlet-class>com.xxx.Controller.GetMessage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetMessage</servlet-name>
+        <url-pattern>/getmessage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendMessage</servlet-name>
+        <servlet-class>com.xxx.Controller.SendMessage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendMessage</servlet-name>
+        <url-pattern>/sendmessage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAllEmployeeForManager</servlet-name>
+        <servlet-class>com.xxx.Controller.GetAllEmployeeForManager</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllEmployeeForManager</servlet-name>
+        <url-pattern>/getEmployee</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAllMessageForManager</servlet-name>
+        <servlet-class>com.xxx.Controller.GetAllMessageForManager</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllMessageForManager</servlet-name>
+        <url-pattern>/getAllMessage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdataEmployee</servlet-name>
+        <servlet-class>com.xxx.Controller.UpdataEmployeeInformation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdataEmployee</servlet-name>
+        <url-pattern>/updataEmployee</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendResponse</servlet-name>
+        <servlet-class>com.xxx.Controller.SendResponseToEmployee</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendResponse</servlet-name>
+        <url-pattern>/sendResponse</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddEmployee</servlet-name>
+        <servlet-class>com.xxx.Controller.AddEmployees</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddEmployee</servlet-name>
+        <url-pattern>/addEmployee</url-pattern>
+    </servlet-mapping>
 </web-app>

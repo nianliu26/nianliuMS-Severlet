@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 public class PasswordChangeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("员工想要修改密码");
+        //System.out.println("员工想要修改密码");
 
         //访问成功
         resp.setStatus(200);
@@ -34,17 +34,15 @@ public class PasswordChangeServlet extends HttpServlet {
         String password = req.getParameter("password");
         String newPassword = req.getParameter("newPassword");
 
-        System.out.println("companyId="+companyId+",eid="+eid+",password="+password+",newPassword="+newPassword);
+        System.out.println(companyId+"/"+eid+"/"+password+"/"+newPassword);
 
         String dbName = UserInterface.FindCompany(companyId);
         Employee employee = UserInterface.FindEmployeeByEid(dbName,eid);
 
         if(employee != null && employee.getPassword().equals(password)
                 && UserInterface.updateEmployeePassword(dbName,eid,newPassword)){
-            System.out.println("查询成功");
             w.write(newPassword);
         }else {
-            System.out.println("修改失败");
             w.write("");
         }
         w.close();

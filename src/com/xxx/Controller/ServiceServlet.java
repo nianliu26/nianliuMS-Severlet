@@ -4,6 +4,7 @@ import com.xxx.Mapper.UserInterface;
 import com.xxx.Module.Arrive;
 import com.xxx.Module.Employee;
 import com.xxx.Module.Time;
+import com.xxx.Module.Zone;
 import com.xxx.Util.DataHandle;
 import com.xxx.Util.JdbcUtil;
 import net.sf.json.JSON;
@@ -34,6 +35,7 @@ public class ServiceServlet extends HttpServlet {
 
         String dbName = UserInterface.FindCompany(companyId);
         Employee employee = UserInterface.FindEmployeeByEid(dbName,eid);
+        Zone zone = UserInterface.FindZone(dbName,employee.getZoneNumber());
 
 
         //访问成功
@@ -43,23 +45,22 @@ public class ServiceServlet extends HttpServlet {
 
         String feedback;
 
-        if((employee.getEid()!=null) && employee.getPassword().equals(password)){
-            System.out.println("发送数据1.....");
+        if((employee.getEid()!=null) && employee.getPassword().equals(password) && zone.getZoneId()!= null){
             JSONObject data = new JSONObject();
 
             //构建用户信息数据
             JSONObject employeeData = DataHandle.structureJSON(employee);
             data.put("employee",String.valueOf(employeeData));
 
-            System.out.println("发送数据2....."+data);
+            JSONObject zoneData = DataHandle.structureJSON(zone);
+            data.put("zone",String.valueOf(zoneData));
+
 
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             String now = dateFormat.format(date);
             dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String today = dateFormat.format(date);
-
-            System.out.println("发送数据3.....");
 
             Arrive arrive = UserInterface.FindArrived(dbName,eid,today);
             if(arrive.getAid() == null){
@@ -74,8 +75,6 @@ public class ServiceServlet extends HttpServlet {
             Time arriveTime = UserInterface.FindTimesByType(dbName,"上班时间");
             Time leaveTime = UserInterface.FindTimesByType(dbName,"下班时间");
 
-            System.out.println("发送数据4.....");
-
             if(now.compareTo(arriveTime.getTime())<0){
                 data.put("allow_arrive",false);
                 data.put("allow_leave",false);
@@ -89,7 +88,7 @@ public class ServiceServlet extends HttpServlet {
 
             feedback = String.valueOf(data);
 
-            System.out.println("service"+feedback);
+            //System.out.println("service"+feedback);
         }else{
             feedback = "";
         }

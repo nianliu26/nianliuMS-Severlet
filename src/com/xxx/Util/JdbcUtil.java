@@ -7,7 +7,8 @@ public class JdbcUtil {
     //private static String DBDriver="com.mysql.jdbc.Driver";
     private static String DBDriver="com.mysql.cj.jdbc.Driver";
     //private static String url="jdbc:mysql://localhost:3306/javawebtest?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
-    private static String url = "jdbc:mysql://localhost:3306/";
+    //private static String url = "jdbc:mysql://localhost:3306/";
+    private static String url = "jdbc:mysql://124.222.30.66:3306/";
     private static String encode="?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     //设置用户名
     private static String user="root";

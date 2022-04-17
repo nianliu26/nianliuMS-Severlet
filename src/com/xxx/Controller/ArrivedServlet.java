@@ -53,12 +53,10 @@ public class ArrivedServlet extends HttpServlet {
             dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String today = dateFormat.format(date);
 
-            System.out.println("员工想要签到");
-
             Time arriveTime = UserInterface.FindTimesByType(dbName,"上班时间");
             Time lateTime = UserInterface.FindTimesByType(dbName,"迟到时间");
             Time leaveTime = UserInterface.FindTimesByType(dbName,"下班时间");
-            System.out.println(today);
+            //System.out.println(today);
             //获取公司上班时间
             if(nowDate.compareTo(arriveTime.getTime()) >= 0 && nowDate.compareTo(lateTime.getTime()) < 0){
                 // 到达上班时间并且没有迟到，即正常签到
@@ -73,7 +71,7 @@ public class ArrivedServlet extends HttpServlet {
                     if(UserInterface.AddArrived(dbName,arriveTime.getTimeId(),eid)){
                         //添加成功
                         resp.setHeader("arrive_flag","1");
-                        System.out.println("签到成功");
+                        //System.out.println("签到成功");
                         feedback = String.valueOf(DataHandle.structureJSON(UserInterface.FindArrived(dbName,eid,today)));
                         w.write(feedback);
                     }else{
@@ -83,7 +81,7 @@ public class ArrivedServlet extends HttpServlet {
 
                 }else {
                     resp.setHeader("arrive_flag","0");
-                    System.out.println("签到失败");
+                    //System.out.println("签到失败");
                     w.write("");
                 }
 
@@ -93,13 +91,13 @@ public class ArrivedServlet extends HttpServlet {
                  * 实现迟到功能：
                  * 第1、2步于正常签到一致，只是第三步返回迟到(arrive_flag = 2)
                  */
-                System.out.println("员工已迟到");
-                System.out.println(UserInterface.FindArrived(dbName,eid,today).getATime());
+                //System.out.println("员工已迟到");
+                //System.out.println(UserInterface.FindArrived(dbName,eid,today).getATime());
                 if(UserInterface.FindArrived(dbName,eid,today).getAid() == null){
                     if(UserInterface.AddArrived(dbName,lateTime.getTimeId(),eid)){
                         //添加成功
                         resp.setHeader("arrive_flag","2");
-                        System.out.println("签到成功");
+                        //System.out.println("签到成功");
                         feedback = String.valueOf(DataHandle.structureJSON(UserInterface.FindArrived(dbName,eid,today)));
                         w.write(feedback);
                     }else{
@@ -109,7 +107,7 @@ public class ArrivedServlet extends HttpServlet {
 
                 }else {
                     resp.setHeader("arrive_flag","0");
-                    System.out.println("签到失败");
+                    //System.out.println("签到失败");
                     w.write("");
                 }
 
@@ -120,12 +118,13 @@ public class ArrivedServlet extends HttpServlet {
                  * 一般通过app正常访问应该不会触发下班时间签到，此处只是为了防止通过非正常途径进行签到
                  */
                 resp.setHeader("arrive_flag","0");
-                System.out.println("已下班,签到失败");
+                //System.out.println("已下班,签到失败");
                 w.write("");
             }
 
 
         }
+        w.close();
 
         JdbcUtil.closeOperation();
 

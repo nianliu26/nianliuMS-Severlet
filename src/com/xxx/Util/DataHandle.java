@@ -43,7 +43,7 @@ public class DataHandle {
             return null;
         }
 
-        System.out.println("封装好的数据："+jsonObject);
+        //System.out.println("封装好的数据："+jsonObject);
 
         return jsonObject;
     }

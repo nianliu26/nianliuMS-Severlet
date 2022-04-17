@@ -23,6 +23,8 @@ public class MysqlHelper {
             return len;
         } catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            //JdbcUtil.closeOperation();
         }
 
         return len;
